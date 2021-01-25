@@ -1,0 +1,64 @@
+body {
+  background-image: url('../img/index_bg.gif');
+  padding-top: 50px;
+  font-family: 'Baloo Bhai', cursive;
+}
+
+.center-container {
+  height: 275px;
+  background-color: #66CDAA;
+  border-radius: 50px;
+}
+
+.player-container {
+  height: 175px;
+  border-radius: 15px 50px;
+}
+
+.spinner-container {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.top-buffer {
+  padding-top: 20px;
+}
+
+.disable {
+  display: block;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+.glyphicon-king {
+  width: 28px;
+}
+
+.spinner-p1, .spinner-p2, .spinner-p3, .spinner-p4 {
+  width: 20px;
+}
+
+.selections {
+  margin-top: 5px;
+  margin-bottom: 3px;
+}
+
+.selections > p {
+  margin-bottom: 2px;
+}
+
+#start {
+  margin: 0 auto;
+  display: block;
+  margin-top: 10px;
+  width: 40%;
+}
+
+#resultSet {
+  display: inline;
+}
+
+#results {
+  text-align: center;
+  margin-top: 18px;
+}

@@ -1,0 +1,8 @@
+
+MY SOURCES/RESOURCES
+==============================================
+
+https://jqueryui.com/
+http://getbootstrap.com
+https://fonts.google.com/
+http://subtlepatterns.com

@@ -1,0 +1,462 @@
+<html>
+  <head>
+    <title>Hackathon.001</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.js"></script>
+
+    <script>
+      var playerOne = [], playerTwo = [], playerThree = [], playerFour = [], resultSet = [];
+      var pOneScore = 0, pTwoScore = 0, pThreeScore = 0, pFourScore = 0;
+      var pOneReady = false, pTwoReady = false, pThreeReady = false, pFourReady = false;
+      var doCalc = false;
+
+      $.fn.checkScores = function(){
+          if (pOneScore >= 30) {
+            $('#p1Winner').append('<span class="glyphicon glyphicon-king" aria-hidden="true"></span>');
+			$(".spinner-p1").spinner("disable");
+          }
+          if (pTwoScore >= 30) {
+            $('#p2Winner').append('<span class="glyphicon glyphicon-king" aria-hidden="true"></span>');
+			$(".spinner-p2").spinner("disable");
+          }
+          if (pThreeScore >= 30) {
+            $('#p3Winner').append('<span class="glyphicon glyphicon-king" aria-hidden="true"></span>');
+			$(".spinner-p3").spinner("disable");
+          }
+          if (pFourScore >= 30) {
+            $('#p4Winner').append('<span class="glyphicon glyphicon-king" aria-hidden="true"></span>');
+			$(".spinner-p4").spinner("disable");
+          }
+      }
+      
+      // class .spinner-container refers to the input selection fields 1-7 on the DOM
+      $.fn.resetCounters = function(){
+        $('.spinner-container').children('span').children('input').val('');
+        playerOne = [];
+        playerTwo = [];
+        playerThree = [];
+        playerFour = [];
+        // enable mousewheel on the four following DOM elements.
+        $(".spinner-p1").spinner("enable");
+        $(".spinner-p2").spinner("enable");
+        $(".spinner-p3").spinner("enable");
+        $(".spinner-p4").spinner("enable");
+        $.fn.checkScores();
+      }
+
+      $.fn.doCalc = function(){
+        if (resultSet.length === 7) {
+          resultSet = [];
+          $('#resultSet').empty();
+        }
+        
+        while (resultSet.length < 7) {
+          /* this code is basically saying. give me a number between 1-6, but the formula that drives this underneath is: 
+             math.random() gives a random floating point in the range of 0 to 1
+             we take this number and multiply it by 6
+             we take this number and floor it to bring it to the closest integer from it's original value ie: 0.1 x 6 = 0.6 floor(ed) would be 0 
+             we then add + 1 to that value to ensure at least the lowest range is included.
+          */
+          resultSet.push(Math.floor(Math.random() * 6) + 1);
+        }
+
+        $('#resultSet').append(resultSet);
+
+        for (var i = 0; i < resultSet.length; i++) {
+          if (resultSet[i] === playerOne[i]) {
+            pOneScore = pOneScore - 3;
+          } else if ((resultSet[i] === 1) && (playerOne[i] === 2 || playerOne[i] === 6 )) {
+            pOneScore = pOneScore + 2;
+          } else if ((resultSet[i] === 2) && (playerOne[i] === 3 || playerOne[i] === 1 )) {
+            pOneScore = pOneScore + 2;
+          } else if ((resultSet[i] === 3) && (playerOne[i] === 4|| playerOne[i] === 2 )) {
+            pOneScore = pOneScore + 2;
+          } else if ((resultSet[i] === 4) && (playerOne[i] === 5 || playerOne[i] === 3 )) {
+            pOneScore = pOneScore + 2;
+          } else if ((resultSet[i] === 5) && (playerOne[i] === 6 || playerOne[i] === 4 )) {
+            pOneScore = pOneScore + 2;
+          } else if ((resultSet[i] === 6) && (playerOne[i] === 1 || playerOne[i] === 5 )) {
+            pOneScore = pOneScore + 2;
+          } else {
+            pOneScore = pOneScore + 1;
+          }
+        }
+        $('#p1Score').append(' ' + pOneScore);
+
+        for (var i = 0; i < resultSet.length; i++) {
+          if (resultSet[i] === playerTwo[i]) {
+            pTwoScore = pTwoScore - 3;
+          } else if ((resultSet[i] === 1) && (playerTwo[i] === 2 || playerTwo[i] === 6 )) {
+            pTwoScore = pTwoScore + 2;
+          } else if ((resultSet[i] === 2) && (playerTwo[i] === 3 || playerTwo[i] === 1 )) {
+            pTwoScore = pTwoScore + 2;
+          } else if ((resultSet[i] === 3) && (playerTwo[i] === 4|| playerTwo[i] === 2 )) {
+            pTwoScore = pTwoScore + 2;
+          } else if ((resultSet[i] === 4) && (playerTwo[i] === 5 || playerTwo[i] === 3 )) {
+            pTwoScore = pTwoScore + 2;
+          } else if ((resultSet[i] === 5) && (playerTwo[i] === 6 || playerTwo[i] === 4 )) {
+            pTwoScore = pTwoScore + 2;
+          } else if ((resultSet[i] === 6) && (playerTwo[i] === 1 || playerTwo[i] === 5 )) {
+            pTwoScore = pTwoScore + 2;
+          } else {
+            pTwoScore = pTwoScore + 1;
+          }
+        }
+        $('#p2Score').append(' ' + pTwoScore);
+
+        for (var i = 0; i < resultSet.length; i++) {
+          if (resultSet[i] === playerThree[i]) {
+            pThreeScore = pThreeScore - 3;
+          } else if ((resultSet[i] === 1) && (playerThree[i] === 2 || playerThree[i] === 6 )) {
+            pThreeScore = pThreeScore + 2;
+          } else if ((resultSet[i] === 2) && (playerThree[i] === 3 || playerThree[i] === 1 )) {
+            pThreeScore = pThreeScore + 2;
+          } else if ((resultSet[i] === 3) && (playerThree[i] === 4|| playerThree[i] === 2 )) {
+            pThreeScore = pThreeScore + 2;
+          } else if ((resultSet[i] === 4) && (playerThree[i] === 5 || playerThree[i] === 3 )) {
+            pThreeScore = pThreeScore + 2;
+          } else if ((resultSet[i] === 5) && (playerThree[i] === 6 || playerThree[i] === 4 )) {
+            pThreeScore = pThreeScore + 2;
+          } else if ((resultSet[i] === 6) && (playerThree[i] === 1 || playerThree[i] === 5 )) {
+            pThreeScore = pThreeScore + 2;
+          } else {
+            pThreeScore = pThreeScore + 1;
+          }
+        }
+        $('#p3Score').append(' ' + pThreeScore);
+
+        for (var i = 0; i < resultSet.length; i++) {
+          if (resultSet[i] === playerFour[i]) {
+            pFourScore = pFourScore - 3;
+          } else if ((resultSet[i] === 1) && (playerFour[i] === 2 || playerFour[i] === 6 )) {
+            pFourScore = pFourScore + 2;
+          } else if ((resultSet[i] === 2) && (playerFour[i] === 3 || playerFour[i] === 1 )) {
+            pFourScore = pFourScore + 2;
+          } else if ((resultSet[i] === 3) && (playerFour[i] === 4|| playerFour[i] === 2 )) {
+            pFourScore = pFourScore + 2;
+          } else if ((resultSet[i] === 4) && (playerFour[i] === 5 || playerFour[i] === 3 )) {
+            pFourScore = pFourScore + 2;
+          } else if ((resultSet[i] === 5) && (playerFour[i] === 6 || playerFour[i] === 4 )) {
+            pFourScore = pFourScore + 2;
+          } else if ((resultSet[i] === 6) && (playerFour[i] === 1 || playerFour[i] === 5 )) {
+            pFourScore = pFourScore + 2;
+          } else {
+            pFourScore = pFourScore + 1;
+          }
+        }
+        $('#p4Score').append(' ' + pFourScore);
+        $.fn.resetCounters();
+      }
+
+      $.fn.randomize = function(){
+        // call this function to begin evaluating player values against the randomized values given.
+        $('.spinner-container').children('span').children('input.spinner-p1').each(function(){
+          if (playerOne.length < 7) {
+            if ($(this).length === 0 || $(this).val() === ""){
+              alert('Player One has missed a selection');
+              playerOne = [];
+              return false;
+            } else {
+              // make sure the value you are adding to the array is a int value for true checking later on.
+              playerOne.push(parseInt(this.value));
+            }
+          }
+        });
+
+        $('.spinner-container').children('span').children('input.spinner-p2').each(function(){
+          if (playerTwo.length < 7) {
+            if ($(this).length === 0 || $(this).val() === ""){
+              alert('Player Two has missed a selection');
+              playerTwo = [];
+              return false;
+            } else {
+              // make sure the value you are adding to the array is a int value for true checking later on.
+              playerTwo.push(parseInt(this.value));
+            }
+          }
+        });
+
+        $('.spinner-container').children('span').children('input.spinner-p3').each(function(){
+          if (playerThree.length < 7) {
+            if ($(this).length === 0 || $(this).val() === ""){
+              alert('Player Three has missed a selection');
+              playerThree = [];
+              return false;
+            } else {
+              // make sure the value you are adding to the array is a int value for true checking later on.
+              playerThree.push(parseInt(this.value));
+            }
+          }
+        });
+
+        $('.spinner-container').children('span').children('input.spinner-p4').each(function(){
+          if (playerFour.length < 7) {
+            if ($(this).length === 0 || $(this).val() === "") {
+              alert('Player Four has missed a selection');
+              playerFour = [];
+              return false;
+            } else {
+              // make sure the value you are adding to the array is a int value for true checking later on.
+              playerFour.push(parseInt(this.value));
+            }
+          }
+        });
+
+        if (playerOne.length === 7 && playerTwo.length === 7 && playerThree.length === 7 && playerFour.length === 7) {
+          // show on the DOM the players selections removing the commas from the array.
+          $('#p1Picks').append(playerOne.toString().replace(/,/g,''));
+          $('#p2Picks').append(playerTwo.toString().replace(/,/g,''));
+          $('#p3Picks').append(playerThree.toString().replace(/,/g,''));
+          $('#p4Picks').append(playerFour.toString().replace(/,/g,''));
+          $.fn.doCalc();
+        }
+      }
+
+      $(function() {
+        $(".spinner-p1, .spinner-p2, .spinner-p3, .spinner-p4").spinner({
+          spin: function(event, ui) {
+            if (ui.value > 6) {
+              // if the value goes over 6, reset it back to 1 and return.
+              $(this).spinner("value", 1);
+              return false;
+            } else if (ui.value < 1) {
+              // if the value is goes under 1, reset it back to 6 and return.
+              $(this).spinner("value", 6);
+              return false;
+            }
+          }
+        });
+
+        // lock in player selections.
+        $(".disable").on("click", function() {
+          var player = $(this).data("player");
+          switch (player) {
+            case "p1":
+              if ($(".spinner-p1").spinner("option", "disabled")) {
+                $(".spinner-p1").spinner("enable");
+              } else {
+                $(".spinner-p1").spinner("disable");
+              }
+              break;
+            case "p2":
+              if ($(".spinner-p2").spinner("option", "disabled")) {
+                $(".spinner-p2").spinner("enable");
+              } else {
+                $(".spinner-p2").spinner("disable");
+              }
+              break;
+            case "p3":
+              if ($(".spinner-p3").spinner("option", "disabled")) {
+                $(".spinner-p3").spinner("enable");
+              } else {
+                $(".spinner-p3").spinner("disable");
+              }
+              break;
+            case "p4":
+              if ($(".spinner-p4").spinner("option", "disabled")) {
+                $(".spinner-p4").spinner("enable");
+              } else {
+                $(".spinner-p4").spinner("disable");
+              }
+              break;
+            }
+
+            // if all player selections have been locked in, we can start the sequence.
+            if (($(".spinner-p1").spinner("option", "disabled")) && ($( ".spinner-p2" ).spinner("option", "disabled")) && ($(".spinner-p3").spinner("option", "disabled")) && ($(".spinner-p4").spinner("option", "disabled"))) {
+              $( "#p1Picks, #p2Picks, #p3Picks, #p4Picks" ).empty();
+              $.fn.randomize();
+            }
+          });
+        });
+  </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h1 style="float:left;">Player One</h1>
+        </div>
+        <div class="col-md-3">
+          <h2 id="p1Winner"></h2>
+        </div>
+        <div class="col-md-3">
+          <h2 style="float:right;" id="p2Winner"></h2>
+        </div>
+        <div class="col-md-3">
+          <h1 style="float:right;">Player Two</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 player-container" style="background-color: #3399FF;"> <!-- player one  -->
+          <div class="row">
+            <div class="col-md-6">
+              <h3>Your Numbers:</h3>
+            </div>
+            <div class="col-md-6">
+              <input type="button" class="btn btn-danger disable" data-player="p1" value="Lock/Unlock Selections">
+            </div>
+          </div>
+          <div class="spinner-container">
+            <input class="spinner-p1">
+            <input class="spinner-p1">
+            <input class="spinner-p1">
+            <input class="spinner-p1">
+            <input class="spinner-p1">
+            <input class="spinner-p1">
+            <input class="spinner-p1">
+          </div>
+          <div class="row">
+            <div class="col-md-12 selections">
+              <p>Last round selections:&nbsp;<span id="p1Picks"></span></p>
+            </div>
+            <div class="col-md-12">
+              <p class="score" id="p1Score">Score:</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5 player-container" style="background-color: #9966FF;"> <!-- player two  -->
+          <div class="row">
+            <div class="col-md-6">
+              <h3>Your Numbers:</h3>
+            </div>
+            <div class="col-md-6">
+              <input type="button" class="btn btn-danger disable" data-player="p2" value="Lock/Unlock Selections">
+            </div>
+          </div>
+          <div class="spinner-container">
+            <input class="spinner-p2">
+            <input class="spinner-p2">
+            <input class="spinner-p2">
+            <input class="spinner-p2">
+            <input class="spinner-p2">
+            <input class="spinner-p2">
+            <input class="spinner-p2">
+          </div>
+          <div class="row">
+            <div class="col-md-12 selections">
+              <p>Last round selections:&nbsp;<span id="p2Picks"></span></p>
+            </div>
+            <div class="col-md-12">
+              <p class="score" id="p2Score">Score:</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="row">
+        <h1 style="text-align: center;">Avoid those numbers!</h1>
+        <div class="col-md-1"></div>
+        <div class="col-md-10 center-container">
+          <div class="row top-buffer">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-11">
+              <p>HOW TO PLAY/OBJECTIVES:</p>
+              <p>Use the mousewheel to scroll through or use the arrows to choose your number selections for slots (1-7). After you have your selections you can then lock those numbers in for the round. When each player has locked in their selections the round will automatically begin.</p>
+              <p>SCORING:</p>
+              <ul>
+                <li>If your number matches the randomized number: -3 points.</li>
+                <li>If your number is within one digit of the randomized number: +2 points.</li>
+                <li>Any other number: +1 point.</li>
+                <li>First player to 30 points wins!</li>
+              </ul>
+
+            </div>
+            <div class="col-md-1">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h4 id="results">Generated random numbers: <p id="resultSet"></p></h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <h1 style="float:left;">Player Three</h1>
+        </div>
+        <div class="col-md-3">
+          <h2 id="p3Winner"></h2>
+        </div>
+        <div class="col-md-3">
+          <h2 style="float:right;" id="p4Winner"></h2>
+        </div>
+        <div class="col-md-3">
+          <h1 style="float:right;">Player Four</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 player-container" style="background-color: #FFCC33;"> <!-- player three  -->
+          <div class="row">
+            <div class="col-md-6">
+              <h3>Your Numbers:</h3>
+            </div>
+            <div class="col-md-6">
+              <input type="button" class="btn btn-danger disable" data-player="p3" value="Lock/Unlock Selections">
+            </div>
+          </div>
+          <div class="spinner-container">
+            <input class="spinner-p3">
+            <input class="spinner-p3">
+            <input class="spinner-p3">
+            <input class="spinner-p3">
+            <input class="spinner-p3">
+            <input class="spinner-p3">
+            <input class="spinner-p3">
+          </div>
+          <div class="row">
+            <div class="col-md-12 selections">
+              <p>Last round selections:&nbsp;<span id="p3Picks"></span></p>
+            </div>
+            <div class="col-md-12">
+              <p class="score" id="p3Score">Score:</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5 player-container" style="background-color: #FF9933"> <!-- player four  -->
+          <div class="row">
+            <div class="col-md-6">
+              <h3>Your Numbers:</h3>
+            </div>
+            <div class="col-md-6">
+              <input type="button" class="btn btn-danger disable" data-player="p4" value="Lock/Unlock Selections">
+            </div>
+          </div>
+          <div class="spinner-container">
+            <input class="spinner-p4">
+            <input class="spinner-p4">
+            <input class="spinner-p4">
+            <input class="spinner-p4">
+            <input class="spinner-p4">
+            <input class="spinner-p4">
+            <input class="spinner-p4">
+          </div>
+          <div class="row">
+            <div class="col-md-12 selections">
+              <p>Last round selections:&nbsp;<span id="p4Picks"></span></p>
+            </div>
+            <div class="col-md-12">
+              <p class="score" id="p4Score">Score:</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
